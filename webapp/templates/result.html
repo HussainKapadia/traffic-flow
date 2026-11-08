@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Result · Smart Traffic Light{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h1>Detected vehicles</h1>
+    <img class="result-image" src="{{ url_for('static', filename='results/' + filename) }}" alt="Traffic image with detected vehicles">
+
+    {% if detection.total == 0 %}
+        <p class="muted">No vehicles were detected in this image.</p>
+    {% else %}
+        <table class="counts">
+            <thead>
+                <tr>
+                    <th>Vehicle type</th>
+                    <th>Count</th>
+                    <th>Time per vehicle</th>
+                    <th>Total time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in timing.rows %}
+                    <tr>
+                        <td class="capitalize">{{ row.name }}</td>
+                        <td>{{ row.count }}</td>
+                        <td>{{ row.seconds_each }} s</td>
+                        <td>{{ row.count }} × {{ row.seconds_each }} = {{ row.seconds_total }} s</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th>{{ detection.total }}</th>
+                    <th></th>
+                    <th>{{ timing.total_seconds }} s</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="green-time">
+            <span>Green light time</span>
+            <strong>{{ timing.total_seconds }} seconds</strong>
+        </div>
+    {% endif %}
+
+    <a class="button" href="{{ url_for('index') }}">Upload another</a>
+</section>
+{% endblock %}

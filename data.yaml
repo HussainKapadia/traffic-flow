@@ -1,0 +1,9 @@
+path: H:\aiml learning\Projects\CNN\Vehicle detection
+train: train/images
+val: valid/images
+test: test/images
+names:
+  0: car
+  1: motorcycle
+  2: bus
+  3: truck

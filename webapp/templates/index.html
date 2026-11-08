@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Upload a traffic image</h1>
+    <p class="muted">We'll detect the vehicles and suggest how long the green light should stay on.</p>
+
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <label class="dropzone" for="image">
+            <img id="preview" alt="" hidden>
+            <span id="hint">Click to choose an image (JPG, PNG, BMP, WEBP)</span>
+        </label>
+        <input type="file" id="image" name="image" accept="image/*" required hidden>
+        <button type="submit">Analyze</button>
+    </form>
+</section>
+
+<script>
+    // Show a preview of the chosen image before uploading
+    const input = document.getElementById("image");
+    const preview = document.getElementById("preview");
+    const hint = document.getElementById("hint");
+
+    input.addEventListener("change", () => {
+        const file = input.files[0];
+        if (!file) return;
+        preview.src = URL.createObjectURL(file);
+        preview.hidden = false;
+        hint.textContent = file.name;
+    });
+</script>
+{% endblock %}
