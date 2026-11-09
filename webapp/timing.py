@@ -10,6 +10,9 @@ VEHICLE_TIMES = {
 # squeeze through gaps and leave alongside the bigger vehicles.
 SMALL_VEHICLES = {"motorcycle"}
 
+# A signal cannot be open for more than 40 seconds
+MAX_GREEN_SECONDS = 40
+
 # Two boxes are in the same path if they overlap horizontally by at least this
 # fraction of the narrower box's width (stops slight overlaps from the next lane counting).
 MIN_HORIZONTAL_OVERLAP = 0.3
@@ -71,8 +74,13 @@ def calculate_timing(detections):
             "seconds_total": counted * seconds_each,
         })
 
+    needed = sum(row["seconds_total"] for row in rows)
+
     return {
         "rows": rows,
         "counted": sum(row["counted"] for row in rows),
-        "total_seconds": sum(row["seconds_total"] for row in rows),
+        "needed_seconds": needed,
+        "total_seconds": min(needed, MAX_GREEN_SECONDS),
+        "capped": needed > MAX_GREEN_SECONDS,
+        "max_seconds": MAX_GREEN_SECONDS,
     }

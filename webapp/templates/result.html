@@ -40,7 +40,7 @@
                     <th>{{ detection.total }}</th>
                     <th>{{ timing.counted }}</th>
                     <th></th>
-                    <th>{{ timing.total_seconds }} s</th>
+                    <th>{{ timing.needed_seconds }} s</th>
                 </tr>
             </tfoot>
         </table>
@@ -48,6 +48,11 @@
         <div class="green-time">
             <span>Green light time</span>
             <strong>{{ timing.total_seconds }} seconds</strong>
+                {% if timing.capped %}
+                    <p class ="muted"> 
+                        Traffic needs {{ timing.needed_seconds }} s, but a signal can stay green for at most {{ timing.max_seconds }} s 
+                    </p>
+                {% endif %}
         </div>
     {% endif %}
 
