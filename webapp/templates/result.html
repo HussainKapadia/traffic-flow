@@ -14,7 +14,8 @@
             <thead>
                 <tr>
                     <th>Vehicle type</th>
-                    <th>Count</th>
+                    <th>Detected</th>
+                    <th>Timed</th>
                     <th>Time per vehicle</th>
                     <th>Total time</th>
                 </tr>
@@ -23,9 +24,13 @@
                 {% for row in timing.rows %}
                     <tr>
                         <td class="capitalize">{{ row.name }}</td>
-                        <td>{{ row.count }}</td>
+                        <td>{{ row.detected }}</td>
+                        <td>
+                            {{ row.counted }}
+                            {% if row.ignored %}<span class="muted">({{ row.ignored }} ignored, behind front row)</span>{% endif %}
+                        </td>
                         <td>{{ row.seconds_each }} s</td>
-                        <td>{{ row.count }} × {{ row.seconds_each }} = {{ row.seconds_total }} s</td>
+                        <td>{{ row.counted }} × {{ row.seconds_each }} = {{ row.seconds_total }} s</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -33,6 +38,7 @@
                 <tr>
                     <th>Total</th>
                     <th>{{ detection.total }}</th>
+                    <th>{{ timing.counted }}</th>
                     <th></th>
                     <th>{{ timing.total_seconds }} s</th>
                 </tr>

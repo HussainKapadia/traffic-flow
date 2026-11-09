@@ -59,7 +59,7 @@ def result(filename):
         flash("Could not read that image. Please try a different file.")
         return redirect(url_for("index"))
 
-    timing = calculate_timing(detection["counts"])
+    timing = calculate_timing(detection["detections"])
 
     return render_template("result.html", filename=filename, detection=detection, timing=timing)
 
